@@ -12,8 +12,10 @@ import Router from "./shared/Router";
 function App() {
   const post = useSelector((state) => state.post);
   const user = useSelector((state) => state.user);
+  const category = useSelector((state) => state.category);
   // console.log(user);
   // console.log(post);
+  console.log(category);
   const dispatch = useDispatch();
   const initialFetchData = useCallback(async () => {
     console.log("app에서 실행");

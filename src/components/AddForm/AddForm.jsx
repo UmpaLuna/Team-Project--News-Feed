@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import uuid from "react-uuid";
 import * as St from "../../StyledComponents/modules/AddFormStyle/AddFormStyle";
 import { auth, db, storage } from "../../firebase/firebase";
+import { updateListCount } from "../../redux/modules/category";
 import { updatePost } from "../../redux/modules/post";
 import { updateUserInfoSetState } from "../../redux/modules/user";
 import AddSlider from "./AddSlider";
@@ -35,7 +36,7 @@ export default function AddForm({ isOpen, setIsopen, contents, setContents, titl
 
     setShowImages(imagesUrl);
   };
-  console.log(uploadImages);
+
   const handleAddPost = async () => {
     if (!user.currentUser) return alert("로그인 후 작성 할 수 있습니다.");
     if (title === "") {
@@ -72,8 +73,19 @@ export default function AddForm({ isOpen, setIsopen, contents, setContents, titl
       dataSet.add({ id: doc.id, ...doc.data() });
     });
     const newPostState = [...dataSet];
+    const updateCategory = newPostState.reduce((acc, item) => {
+      let count = 1;
+      if (!acc[item.category]) {
+        acc[item.category] = count;
+      } else {
+        acc[item.category] += count;
+      }
+      return acc;
+    }, {});
 
-    dispatch(updatePost(newPostState));
+    console.log(newPostState);
+    dispatch(updatePost([...newPostState]));
+    dispatch(updateListCount(updateCategory));
   };
 
   const handleUpLoadPostImages = async () => {

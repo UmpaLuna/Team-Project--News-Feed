@@ -15,7 +15,8 @@ export const updateListCount = (payload) => ({
 });
 // 이건 카테고리 추가 기능 넣을 수 있으면 넣고 아니면 삭제 부탁합니다.
 export const updateList = (payload) => ({
-  type: UPDATE_LIST
+  type: UPDATE_LIST,
+  payload
 });
 
 const initialValue = {
